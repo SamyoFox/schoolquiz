@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quiz</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+                font-family: 'Arial', sans-serif;
+            }
+
+            .container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+                font-size: 25px;
+            }
+
+            .button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 600px;
+                height: 300px;
+                background-color: #eaeaea;
+                border-radius: 10px;
+                font-size: 25px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            #startContainer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            #questionContainer {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            #questionContainer {
+                display: none;
+            }
+
+            h1{
+                font-size: 50px;
+            }
+
+            #nameInput {
+                width: 600px;
+                height: 100px;
+                font-size: 60px;
+                text-align: center;
+                border-radius: 10px;
+                border: 1px solid #eaeaea;
+                outline: none;
+            }
+            .centerEvenMore {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .wendellDaddyPleaseFuckMe{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 600px;
+                gap: 20px;
+            }
+            #endContainer{
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="startContainer">
+            <h1 style="font-size: 100px">Starte das Quiz!</h1>
+            <div class="centerEvenMore">
+                <h2>Gib deinen Namen ein:</h4>
+                <div class="wendellDaddyPleaseFuckMe">
+                    <input id="nameInput" type="text" placeholder="Name" required>
+                    <div id="startButton" class="button" style="width: 200px; height: 100px; font-size: 50px;" onclick="startQuiz()">Start</div>
+                </div>
+            </div>
+        </div>
+        <div id="questionContainer">
+            <h1 id="question">Eine sehr lange Frage? Stehst du auf lange Fragen? Ich nicht. Ich glaube aber nicht dass so eine Frage so lang wäre.</h1>
+            <div class="container">
+                <div id="answer1" class="button" onclick="answer(0)">Button 1</div>
+                <div id="answer2" class="button" onclick="answer(1)">Button 2</div>
+                <div id="answer3" class="button" onclick="answer(2)">Button 3</div>
+                <div id="answer4" class="button" onclick="answer(3)">Button 4</div>
+            </div>
+        </div>
+        <div id="endContainer">
+            <h1 id="endScore">Du bist auf dem %s. Platz, %s!</h1>
+            <h2 id="timeScore">Du hast %s von %s Fragen richtig beantwortet in %s Sekunden!</h2>
+            <h4 id="endTimer">Quiz wird in 10 Sekunden neu gestartet.</h4>
+        </div>
+        <script type="text/javascript">
+            let questions = [];
+            document.addEventListener("DOMContentLoaded", function() {
+                fetch("questions")
+                .then(response => response.text())
+                .then(data => {
+                    questions = JSON.parse(data);
+                });
+            });
+            document.getElementById("nameInput").addEventListener("input", function(event) {
+                if (document.getElementById("nameInput").value == "") {
+                    document.getElementById("nameInput").style.border = "1px solid red";
+                } else {
+                    document.getElementById("nameInput").style.border = "1px solid #eaeaea";
+                }
+            });
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            let currentQuestion = 0;
+            let score = 0;
+            let place = 1;
+            let time = 0;
+            let timerId;
+            let answersToShow = [];
+            let waitingForNextQuestion = false;
+
+            function showQuestion(){
+                waitingForNextQuestion = false;
+                document.getElementById("answer1").style.backgroundColor = "#eaeaea";
+                document.getElementById("answer2").style.backgroundColor = "#eaeaea";
+                document.getElementById("answer3").style.backgroundColor = "#eaeaea";
+                document.getElementById("answer4").style.backgroundColor = "#eaeaea";
+                answersToShow = [];
+                document.getElementById("question").innerHTML = questions[currentQuestion].question;
+                answersToShow.push({"correct": true, "answer": questions[currentQuestion].correct});
+                while(answersToShow.length < 4){
+                    let answerPicked = false;
+                    while(!answerPicked){
+                        let pickedFalseAnswer = questions[currentQuestion].false[Math.floor(Math.random() * questions[currentQuestion].false.length)];
+                        console.log(pickedFalseAnswer);
+                        if (!answersToShow.some(obj => obj.answer === pickedFalseAnswer)){
+                            answersToShow.push({"correct": false, "answer": pickedFalseAnswer});
+                            answerPicked = true;
+                        }
+                    }
+                }
+                answersToShow = shuffleArray(answersToShow);
+                document.getElementById("answer1").innerHTML = answersToShow[0].answer;
+                document.getElementById("answer2").innerHTML = answersToShow[1].answer;
+                document.getElementById("answer3").innerHTML = answersToShow[2].answer;
+                document.getElementById("answer4").innerHTML = answersToShow[3].answer;
+            }
+
+            function answer(buttonPressed = 0){
+                if (waitingForNextQuestion) return;
+                if (answersToShow[buttonPressed].correct){
+                    score++;
+                    document.getElementById("answer" + (buttonPressed + 1)).style.backgroundColor = "green";
+                } else {
+                    document.getElementById("answer" + (buttonPressed + 1)).style.backgroundColor = "red";
+                    document.getElementById("answer" + (answersToShow.findIndex(answer => answer.correct) + 1)).style.backgroundColor = "green";
+                }
+                currentQuestion++;
+                waitingForNextQuestion = true;
+                if (currentQuestion == 10){
+                    clearInterval(timerId);
+                    document.getElementById("questionContainer").style.display = "none";
+                    fetch("collect", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({name: document.getElementById("nameInput").value, correct: score, time: Math.floor(time)})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response data
+                            place = data.place;
+                            document.getElementById("endContainer").style.display = "flex";
+                            document.getElementById("endScore").innerHTML = "Du bist auf dem " + place + ". Platz, " + document.getElementById("nameInput").value + "!";
+                            document.getElementById("timeScore").innerHTML = "Du hast " + score + " von 10 Fragen richtig beantwortet in " + Math.floor(time) + " Sekunden!";
+                            setTimeout(function() {
+                                location.reload();
+                            }, 10000);
+                        })
+                        .catch(error => {
+                            // Handle any errors
+                            console.error('Error:', error);
+                            setTimeout(function() {
+                                location.reload();
+                            }, 10000);
+                        });
+
+                } else {
+                    setTimeout(showQuestion, 1000);
+                }
+            }
+
+            function startQuiz(){
+                if (document.getElementById("nameInput").value != "") {
+                    document.getElementById("startContainer").style.display = "none";
+                    document.getElementById("questionContainer").style.display = "flex";
+                    questions = shuffleArray(questions);
+                    console.log(questions);
+                    showQuestion();
+                    timerId = setInterval(function() {
+                        time += 0.1;
+                    }, 100);
+                }
+            }
+        </script>
+    </body>
+</html>

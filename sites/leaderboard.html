@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaderboard</title>
+        <style>
+            body{
+                font-family: 'Arial', sans-serif;
+                text-align: center;
+                align-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
+            table, th, td{
+                border: 1px solid black;
+                border-collapse: collapse;
+                border-color: #96D4D4;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            table{
+                width: 100%;
+            }
+            #table-heading-row{
+                background-color: #96D4D4;
+                height: 50px;
+            }
+
+            #table-heading-row th {
+                font-size: 30px;
+            }
+
+            #table-heading-place th {
+                width: 100px;
+            }
+
+            #table-heading-name th {
+                width: 40%;
+            }
+            #table-heading-correct th {
+                width: 10%;
+            }
+            #table-heading-time th {
+                width: 10%;
+            }
+            .leaderboard-entry {
+                height: 50px;
+                font-size: 30px;
+            }
+
+            h1{
+                font-size: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Bestenliste</h1>
+        <table id="leaderboard-table">
+            <tr id="table-heading-row">
+                <th>Platz</th>
+                <th>Name</th>
+                <th>Richtige Fragen</th>
+                <th>Zeit</th>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            function createHeading(){
+                // Take the leaderboard-table and add the table heading to it again
+                let table = document.getElementById("leaderboard-table");
+                let row = document.createElement("tr");
+                row.id = "table-heading-row";
+                let place = document.createElement("th");
+                place.id = "table-heading-place";
+                let name = document.createElement("th");
+                name.id = "table-heading-name";
+                let correct = document.createElement("th");
+                correct.id = "table-heading-correct";
+                let time = document.createElement("th");
+                time.id = "table-heading-time";
+                place.innerHTML = "Platz";
+                name.innerHTML = "Name";
+                correct.innerHTML = "Richtige Fragen";
+                time.innerHTML = "Zeit";
+                row.appendChild(place);
+                row.appendChild(name);
+                row.appendChild(correct);
+                row.appendChild(time);
+                table.appendChild(row);
+            }
+            document.addEventListener("DOMContentLoaded", function() {
+                // Function to retrieve the URL
+                function retrieveURL() {
+                    // Replace "your-url-here" with the actual URL you want to retrieve
+                    fetch("leaderboard-api")
+                    .then(response => response.text())
+                    .then(data => {
+                        let whatever = JSON.parse(data);
+                        document.getElementById("leaderboard-table").innerHTML = "";
+                        createHeading();
+                        let placeNum = 1;
+                        for (let i in whatever){
+                            entry = whatever[i];
+                            let row = document.createElement("tr");
+                            row.classList.add("leaderboard-entry");
+                            let place = document.createElement("th");
+                            let name = document.createElement("th");
+                            let correct = document.createElement("th");
+                            let time = document.createElement("th");
+                            place.innerHTML = placeNum;
+                            name.innerHTML = entry["name"];
+                            correct.innerHTML = entry["correct"] + "/10";
+                            time.innerHTML = entry["time"] + " Sek.";
+                            row.appendChild(place);
+                            row.appendChild(name);
+                            row.appendChild(correct);
+                            row.appendChild(time);
+                            document.getElementById("leaderboard-table").appendChild(row);
+                            placeNum++;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error retrieving URL:", error);
+                    });
+                }
+
+                // Start the timer
+                setInterval(retrieveURL, 5000);
+                });
+        </script>
+    </body>
+</html>

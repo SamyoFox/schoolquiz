@@ -1,0 +1,113 @@
+[
+    {
+      "question": "Was ist ein Computer?",
+      "correct": "Ein elektronisches Gerät, das Informationen verarbeitet",
+      "false": [
+        "Ein Tier im Zoo",
+        "Ein schnelles Fahrrad",
+        "Eine Frucht, die man essen kann",
+        "Ein fliegender Teppich",
+        "Ein Unterwasserfahrzeug"
+      ]
+    },
+    {
+      "question": "Welches der folgenden Dinge ist ein Eingabegerät?",
+      "correct": "Maus",
+      "false": [
+        "Bildschirm",
+        "Lautsprecher",
+        "Drucker",
+        "Tastatur",
+        "Fernseher"
+      ]
+    },
+    {
+      "question": "Was bedeutet 'Programmieren'?",
+      "correct": "Ein Computerprogramm schreiben",
+      "false": [
+        "Eine Pizza bestellen",
+        "Fußball spielen",
+        "Malen",
+        "Einen Kuchen backen",
+        "Ein Gedicht rezitieren"
+      ]
+    },
+    {
+      "question": "Was ist ein Betriebssystem?",
+      "correct": "Eine Software, die den Computer steuert und organisiert",
+      "false": [
+        "Ein Ort, an dem man spielen kann",
+        "Ein besonderes Kleidungsstück",
+        "Ein Musikinstrument",
+        "Ein magisches Buch",
+        "Ein fliegendes Auto"
+      ]
+    },
+    {
+      "question": "Welche Taste auf der Tastatur wird verwendet, um einen Absatz zu machen?",
+      "correct": "Die Enter-Taste",
+      "false": [
+        "Die Leertaste",
+        "Die Shift-Taste",
+        "Die Tab-Taste",
+        "Die Backspace-Taste",
+        "Die Caps Lock-Taste"
+      ]
+    },
+    {
+      "question": "Was ist eine Datei?",
+      "correct": "Eine Sammlung von Informationen, gespeichert auf dem Computer",
+      "false": [
+        "Ein leeres Blatt Papier",
+        "Ein Buch",
+        "Ein Spielzeugauto",
+        "Ein Musikinstrument",
+        "Eine Tasse Kaffee"
+      ]
+    },
+    {
+      "question": "Welches Symbol wird oft für das Internet verwendet?",
+      "correct": "📧",
+      "false": [
+        "☀️",
+        "🚗",
+        "📷",
+        "🌈",
+        "⚽"
+      ]
+    },
+    {
+      "question": "Was ist ein Virus in Bezug auf Computer?",
+      "correct": "Eine schädliche Software, die den Computer beeinträchtigen kann",
+      "false": [
+        "Eine Krankheit, die Menschen bekommen",
+        "Ein kleiner Roboter",
+        "Ein Tier im Wald",
+        "Ein freundliches Computerprogramm",
+        "Eine bunte Blume"
+      ]
+    },
+    {
+      "question": "Was ist ein Pixel?",
+      "correct": "Ein Bildpunkt auf dem Bildschirm",
+      "false": [
+        "Ein kleiner Insektenstich",
+        "Ein Laut im Alphabet",
+        "Ein bunter Regenschirm",
+        "Ein magischer Kristall",
+        "Ein winziger Elefant"
+      ]
+    },
+    {
+      "question": "Was ist ein Passwort?",
+      "correct": "Ein geheimes Zeichen",
+      "false": [
+        "Ein spezielles Wort, um Türen zu öffnen",
+        "Ein leckeres Essen",
+        "Ein bunter Stift",
+        "Ein magisches Schlüsselwort",
+        "Eine geheime Zahlenkombination"
+      ]
+    }
+  ]
+  
